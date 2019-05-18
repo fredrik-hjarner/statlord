@@ -1,6 +1,6 @@
 import { compose, createStore, combineReducers, applyMiddleware } from "redux";
 import { createLogger } from "redux-logger";
-import { persistStore, persistReducer, createTransform } from "redux-persist";
+import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import createSagaMiddleware from "redux-saga";
 import { all } from "redux-saga/effects";
