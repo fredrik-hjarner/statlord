@@ -1,0 +1,70 @@
+import { compose, createStore, combineReducers, applyMiddleware } from "redux";
+import { createLogger } from "redux-logger";
+import { persistStore, persistReducer, createTransform } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import createSagaMiddleware from "redux-saga";
+import { all } from "redux-saga/effects";
+import { reducer as formReducer } from "redux-form";
+
+import { reducer as navigationReducer } from "./navigation";
+import { reducer as modalReducer } from "./modal";
+import { reducer as toastrReducer, sagas as toastrSagas } from "./toastr";
+import {
+  reducer as keyValuePairsReducer,
+  sagas as keyValuePairsSagas
+} from "./key-value-pairs";
+
+const enhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; //eslint-disable-line
+
+const sagaMiddleware = createSagaMiddleware();
+const middleware = [sagaMiddleware];
+
+if (__DEV__) {
+  middleware.push(createLogger({ collapsed: true }));
+}
+
+const transformImages = createTransform(
+  inboundState => {
+    if (!inboundState) {
+      return {};
+    }
+    return inboundState;
+  },
+
+  outboundState => {
+    if (!outboundState) {
+      return {};
+    }
+    return outboundState;
+  },
+
+  { whitelist: ["images"] }
+);
+
+const persistConfig = {
+  transforms: [transformImages],
+  key: "root",
+  storage,
+  whitelist: ["images"]
+};
+
+const reducers = combineReducers({
+  form: formReducer,
+  navigation: navigationReducer,
+  toastr: toastrReducer,
+  keyValuePairs: keyValuePairsReducer,
+  modal: modalReducer
+});
+
+export const store = createStore(
+  persistReducer(persistConfig, reducers),
+  enhancer(applyMiddleware(...middleware))
+);
+
+export const persistor = persistStore(store);
+
+function* rootSaga() {
+  yield all([toastrSagas(), keyValuePairsSagas()]);
+}
+
+sagaMiddleware.run(rootSaga);
