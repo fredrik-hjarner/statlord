@@ -1,29 +1,36 @@
 import React, { useEffect } from "react";
-import { ScrollView } from "react-native";
-import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
-import FeatherIcon from "react-native-vector-icons/Feather";
+import { ScrollView, View } from "react-native";
+import { VictoryLine, VictoryChart, VictoryTheme } from "victory-native";
 
 import { LayoutWithFooter, LayoutWithHeader } from "layouts";
 import { Container, H1 } from "components";
 
-const iconSize = 20;
-const loadIcon = <FeatherIcon name="download" color="white" size={iconSize} />;
-const saveIcon = <FontAwesome5Icon name="save" color="white" size={iconSize} />;
-
-type Props = {};
+const Chart = () => {
+  const data = [
+    { x: 1, y: 2 },
+    { x: 2, y: 3 },
+    { x: 3, y: 5 },
+    { x: 4, y: 4 },
+    { x: 5, y: 6 }
+  ];
+  return (
+    <View style={{ borderWidth: 1 }}>
+      <VictoryChart theme={VictoryTheme.material}>
+        <VictoryLine data={data} />
+      </VictoryChart>
+    </View>
+  );
+};
 
 const Home = () => {
-  /* const actions = [
-    { text: "Load", callback: () => {}, icon: loadIcon },
-    { text: "Save", callback: () => {}, icon: saveIcon }
-  ]; */
   return (
     <LayoutWithHeader>
-      <LayoutWithFooter /* actions={actions} */>
+      <LayoutWithFooter>
         <ScrollView>
-          <Container>
-            <H1>Test</H1>
-          </Container>
+          {/* <Container> */}
+          <H1>Test</H1>
+          <Chart />
+          {/* </Container> */}
         </ScrollView>
       </LayoutWithFooter>
     </LayoutWithHeader>
