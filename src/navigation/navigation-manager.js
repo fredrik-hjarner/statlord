@@ -2,10 +2,10 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { View } from "react-native";
 
-import { Home } from "routes";
+import { Home, Stat, Chart } from "routes";
 import { Toastr } from "components";
 import { currentRouteSelector } from "state-management/navigation";
-import { HOME_ROUTE } from "consts";
+import { HOME_ROUTE, STAT_ROUTE, CHART_ROUTE } from "consts";
 
 type Props = {
   currentRoute: string
@@ -22,6 +22,12 @@ export default connect(mapStateToProps)(
       switch (currentRoute) {
         case HOME_ROUTE:
           return <Home />;
+
+        case STAT_ROUTE:
+          return <Stat />;
+
+        case CHART_ROUTE:
+          return <Chart />;
 
         default:
           return <Home />;

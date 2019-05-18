@@ -6,7 +6,10 @@ import createSagaMiddleware from "redux-saga";
 import { all } from "redux-saga/effects";
 import { reducer as formReducer } from "redux-form";
 
-import { reducer as navigationReducer } from "./navigation";
+import {
+  reducer as navigationReducer,
+  sagas as navigationSagas
+} from "./navigation";
 import { reducer as modalReducer } from "./modal";
 import { reducer as toastrReducer, sagas as toastrSagas } from "./toastr";
 import {
@@ -64,7 +67,7 @@ export const store = createStore(
 export const persistor = persistStore(store);
 
 function* rootSaga() {
-  yield all([toastrSagas(), keyValuePairsSagas()]);
+  yield all([toastrSagas(), keyValuePairsSagas(), navigationSagas()]);
 }
 
 sagaMiddleware.run(rootSaga);

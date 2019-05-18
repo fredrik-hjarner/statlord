@@ -47,7 +47,9 @@
     "no-confusing-arrow": 0,
     "spaced-comment": 0,
     "eol-last": 0,
-    "react/jsx-tag-spacing": 0
+    "react/jsx-tag-spacing": 0,
+    "no-plusplus": 0,
+    "function-paren-newline": 0
   },
   "settings": {
     "import/resolver": {
