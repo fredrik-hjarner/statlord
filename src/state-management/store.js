@@ -26,26 +26,7 @@ if (__DEV__) {
   middleware.push(createLogger({ collapsed: true }));
 }
 
-const transformImages = createTransform(
-  inboundState => {
-    if (!inboundState) {
-      return {};
-    }
-    return inboundState;
-  },
-
-  outboundState => {
-    if (!outboundState) {
-      return {};
-    }
-    return outboundState;
-  },
-
-  { whitelist: ["images"] }
-);
-
 const persistConfig = {
-  transforms: [transformImages],
   key: "root",
   storage,
   whitelist: ["images"]
