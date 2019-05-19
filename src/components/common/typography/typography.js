@@ -1,12 +1,13 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text as RNText } from "react-native";
 
-// TODO: Should remove Text and place it all here instead.
 export const P = ({ children, style, ...props }) => (
-  <Text style={[styles.p, style]} {...props}>
+  <RNText style={[styles.p, style]} {...props}>
     {children}
-  </Text>
+  </RNText>
 );
+
+export const Text = P; // only a synonym for P
 
 export const B = ({ children, style, ...props }) => (
   <P style={[styles.b, style]} {...props}>

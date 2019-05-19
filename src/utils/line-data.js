@@ -1,3 +1,5 @@
+import { uniq } from "ramda";
+
 import type { LineData } from "flow-types";
 
 export const difference = (first: LineData, second: LineData): LineData => {
@@ -58,3 +60,36 @@ export const blend = (
     y: y * firstFactor - second[i].y * secondFactor
   }));
 };
+
+export const getMissingDataPoints = (
+  first,
+  second
+): { missingInFirst: [Object], missingInSecond: [Object] } => {
+  const firstXs = first.map(f => f.x);
+  const secondXs = second.map(f => f.x);
+  const allXs = uniq(first.concat(second));
+  return allXs.reduce(
+    (acc, x) => {
+      if (!firstXs.includes(x)) {
+        acc.missingInFirst.push(x);
+      }
+      if (!secondXs.includes(x)) {
+        acc.missingInSecond.push(x);
+      }
+      return acc;
+    },
+    {
+      missingInFirst: [],
+      missingInSecond: []
+    }
+  );
+};
+
+/**
+ * Assumes x-axis is a moment object.
+ * Assumes y-axis is a number.
+ * If there are x-values that only exist in first or second,
+ * then add this value to the other and set the y-value
+ * to some reasonable value (interpolated in some good way).
+ */
+export const fillMissingDataPoints = (first, second) => {};

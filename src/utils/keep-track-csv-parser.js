@@ -72,12 +72,15 @@ export const keepTrackCsvParser = (csv: string): ReturnValue => {
   return statsLeftToParse.map(stats => {
     const lines = stats.split("\n");
     const name = lines[0];
-    const data = lines.slice(1).map(line => {
-      const vals = line.split(",");
-      const x = moment(`${vals[0]} ${vals[1]}`, "DD/MM/YYYY HH:mm");
-      const y = parseFloat(vals[2]);
-      return { x, y };
-    });
+    const data = lines
+      .slice(1)
+      .reverse()
+      .map(line => {
+        const vals = line.split(",");
+        const x = moment(`${vals[0]} ${vals[1]}`, "DD/MM/YYYY HH:mm");
+        const y = parseFloat(vals[2]);
+        return { x, y };
+      });
     return { name, data };
   });
 };
