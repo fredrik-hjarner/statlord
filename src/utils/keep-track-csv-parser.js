@@ -59,8 +59,7 @@ feel good 1-10
 11/05/2019,07:00,4.8
 10/05/2019,20:04,5
 10/05/2019,12:00,5
-10/05/2019,07:04,4.8
-`;
+10/05/2019,07:04,4.8`;
 
 type ReturnValue = [{ name: string, data: LineData }];
 
@@ -77,7 +76,7 @@ export const keepTrackCsvParser = (csv: string): ReturnValue => {
       .reverse()
       .map(line => {
         const vals = line.split(",");
-        const x = moment(`${vals[0]} ${vals[1]}`, "DD/MM/YYYY HH:mm");
+        const x = moment(`${vals[0]} ${vals[1]}`, "DD/MM/YYYY HH:mm").unix();
         const y = parseFloat(vals[2]);
         return { x, y };
       });

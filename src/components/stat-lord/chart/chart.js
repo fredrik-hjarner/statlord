@@ -11,6 +11,7 @@ type Props = {
 };
 
 const Chart = ({ lines }: Props) => {
+  console.log("lines:", lines, "");
   return (
     <VictoryChart
       theme={VictoryTheme.material}
