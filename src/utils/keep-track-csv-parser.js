@@ -76,7 +76,7 @@ export const keepTrackCsvParser = (csv: string): ReturnValue => {
       .reverse()
       .map(line => {
         const vals = line.split(",");
-        const x = moment(`${vals[0]} ${vals[1]}`, "DD/MM/YYYY HH:mm").unix();
+        const x = moment(`${vals[0]} ${vals[1]}`, "DD/MM/YYYY HH:mm").valueOf();
         const y = parseFloat(vals[2]);
         return { x, y };
       });
