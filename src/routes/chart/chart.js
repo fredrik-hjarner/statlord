@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView } from "react-native";
 
 import { LayoutWithFooter, LayoutWithHeader } from "layouts";
@@ -26,18 +26,17 @@ const lines = [
   }
 ];
 
-const handleDomainChange = (domain: string) => {};
-
 export default () => {
+  const [domain, setDomain] = useState("year");
   return (
     <LayoutWithHeader>
       <LayoutWithFooter>
         <ScrollView>
           <Container>
             <Text>Test</Text>
-            <FilterForm onDomainChange={handleDomainChange} />
+            <FilterForm initialValues={{ domain }} onDomainChange={setDomain} />
           </Container>
-          <Chart lines={lines} domain="day" />
+          <Chart lines={lines} domain={domain} />
         </ScrollView>
       </LayoutWithFooter>
     </LayoutWithHeader>

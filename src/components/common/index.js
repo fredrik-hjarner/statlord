@@ -10,3 +10,4 @@ export { default as TouchableOpacity } from "./touchable-opacity";
 export { default as Modal } from "./modal";
 export * from "./grid";
 export * from "./typography";
+export * from "./form";
