@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { Text, TouchableOpacity as TB, Grid, Column } from "components";
 import { pushRoute } from "state-management/navigation";
-import { HOME_ROUTE, STAT_ROUTE, CHART_ROUTE } from "consts";
+import { HOME_ROUTE, PARAMETER_ROUTE, CHART_ROUTE } from "consts";
 
 const TouchableOpacity = ({ style, ...props }) => (
   <TB style={[{ width: "100%", alignItems: "center" }, style]} {...props} />
@@ -33,9 +33,9 @@ export default connect(
           <Column width={4}>
             <TouchableOpacity
               style={{ width: "100%" }}
-              onPress={() => this.props.pushRoute(STAT_ROUTE)}
+              onPress={() => this.props.pushRoute(PARAMETER_ROUTE)}
             >
-              <Text style={styles.text}>Stat</Text>
+              <Text style={styles.text}>Param</Text>
             </TouchableOpacity>
           </Column>
           <Column width={4}>

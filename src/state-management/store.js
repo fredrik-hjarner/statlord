@@ -16,6 +16,7 @@ import {
   reducer as keyValuePairsReducer,
   sagas as keyValuePairsSagas
 } from "./key-value-pairs";
+import { reducer as parameterReducer } from "./parameter";
 
 const enhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; //eslint-disable-line
 
@@ -37,7 +38,8 @@ const reducers = combineReducers({
   navigation: navigationReducer,
   toastr: toastrReducer,
   keyValuePairs: keyValuePairsReducer,
-  modal: modalReducer
+  modal: modalReducer,
+  parameter: parameterReducer
 });
 
 export const store = createStore(

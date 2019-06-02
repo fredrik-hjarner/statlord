@@ -1,33 +1,14 @@
 import React, { useState } from "react";
 import { ScrollView } from "react-native";
+import { connect } from "react-redux";
 
 import { LayoutWithFooter, LayoutWithHeader } from "layouts";
 import { Container, Text, Chart } from "components";
-import { keepTrackCsvParser, fileAsString, fillMissingDataPoints } from "utils";
+import { selectors } from "state-management/parameter";
 import FilterForm from "./filter-form";
 
-const linesData = keepTrackCsvParser(fileAsString);
-
-const { lineData1, lineData2 } = fillMissingDataPoints(
-  linesData[0].data,
-  linesData[1].data
-);
-
-const lines = [
-  {
-    name: linesData[0].name,
-    color: "blue",
-    data: lineData1
-  },
-  {
-    name: linesData[1].name,
-    color: "red",
-    data: lineData2
-  }
-];
-
-export default () => {
-  const [domain, setDomain] = useState("year");
+const Component = ({ lines }) => {
+  const [domain, setDomain] = useState("month");
   return (
     <LayoutWithHeader>
       <LayoutWithFooter>
@@ -42,3 +23,9 @@ export default () => {
     </LayoutWithHeader>
   );
 };
+
+const mapStateToProps = state => ({
+  lines: selectors.entity(state)
+});
+
+export default Component |> connect(mapStateToProps);
