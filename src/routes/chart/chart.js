@@ -25,7 +25,7 @@ const Component = ({ lines }) => {
 };
 
 const mapStateToProps = state => ({
-  lines: selectors.entity(state)
+  lines: Object.values(selectors.entities(state))
 });
 
 export default Component |> connect(mapStateToProps);

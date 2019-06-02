@@ -18,7 +18,7 @@ const Component = ({ parameter }) => {
       <LayoutWithFooter actions={actions}>
         <ScrollView>
           <Container>
-            <Text>Test</Text>
+            <Text>{parameter.name}</Text>
             <Table parameter={parameter} />
           </Container>
         </ScrollView>
@@ -28,7 +28,7 @@ const Component = ({ parameter }) => {
 };
 
 const mapStateToProps = state => ({
-  parameter: selectors.entity(state)[0]
+  parameter: selectors.entity(state, 0)
 });
 
 export default Component |> connect(mapStateToProps);

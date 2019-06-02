@@ -1,5 +1,6 @@
 import React from "react";
 import { View } from "react-native";
+import moment from "moment";
 
 import type { LineData } from "flow-types";
 import { Text } from "components";
@@ -15,11 +16,10 @@ type Props = {
 export default ({ parameter: { name, data, color } }: Props) => {
   return (
     <View>
-      <Text>{name}</Text>
       {data.map(({ x, y }) => (
         <View>
           <Text>
-            {x}: {y}
+            {moment(x).format("YYYY/DD/MM HH:mm")}: {y}
           </Text>
         </View>
       ))}

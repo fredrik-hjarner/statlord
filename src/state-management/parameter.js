@@ -5,7 +5,7 @@ import { keepTrackCsvParser, fileAsString, fillMissingDataPoints } from "utils";
 ****************************************************************** */
 
 type State = {
-  entity: any // TODO
+  entities: any // TODO
 };
 
 const linesData = keepTrackCsvParser(fileAsString);
@@ -15,21 +15,23 @@ const { lineData1, lineData2 } = fillMissingDataPoints(
   linesData[1].data
 );
 
-const lines = [
-  {
+const lines = {
+  0: {
+    id: 0,
     name: linesData[0].name,
     color: "blue",
     data: lineData1
   },
-  {
+  1: {
+    id: 1,
     name: linesData[1].name,
     color: "red",
     data: lineData2
   }
-];
+};
 
 const INITIAL_STATE: State = {
-  entity: lines // TODO: this is just mocking
+  entities: lines // TODO: this is just mocking
 };
 
 /** *****************************************************************
@@ -52,7 +54,8 @@ export const reducer = (state: State = INITIAL_STATE, action) => {
 ****************************************************************** */
 
 export const selectors = {
-  entity: (state: Object): [] => state.parameter.entity
+  entity: (state: Object, id: string): [] => state.parameter.entities[id],
+  entities: (state: Object): [] => state.parameter.entities
 };
 
 /** *****************************************************************
