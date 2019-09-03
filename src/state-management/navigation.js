@@ -10,8 +10,13 @@ import { take, put, all } from "redux-saga/effects";
 const PUSH_ROUTE = "PUSH_ROUTE";
 const GO_BACK = "GO_BACK";
 
+type Route = {
+  route: String,
+  routeParams: any
+};
+
 type State = {
-  routeHistory: [string]
+  routeHistory: [Route]
 };
 
 const INITIAL_STATE: State = {
@@ -24,15 +29,21 @@ const INITIAL_STATE: State = {
 
 export const reducer = (state: State = INITIAL_STATE, action) => {
   switch (action.type) {
-    case PUSH_ROUTE:
-      if (last(state.routeHistory) === action.payload.route) {
+    case PUSH_ROUTE: {
+      const { route, routeParams } = action.payload;
+      const lastRoute = last(state.routeHistory);
+      // should not push if we're already there.
+      if (
+        lastRoute?.route === route &&
+        lastRoute?.routeParams === routeParams
+      ) {
         return state;
       }
       return {
         ...state,
-        routeHistory: [...state.routeHistory, action.payload.route]
+        routeHistory: [...state.routeHistory, { route, routeParams }]
       };
-
+    }
     case GO_BACK: {
       const routeHistory = dropLast(1, state.routeHistory);
       return {
@@ -50,9 +61,9 @@ export const reducer = (state: State = INITIAL_STATE, action) => {
     Actions
 ****************************************************************** */
 
-export const pushRoute = (route: string) => ({
+export const pushRoute = (route: string, routeParams: any) => ({
   type: PUSH_ROUTE,
-  payload: { route }
+  payload: { route, routeParams }
 });
 
 export const goBack = () => ({ type: GO_BACK });
@@ -61,13 +72,13 @@ export const goBack = () => ({ type: GO_BACK });
     Selectors
 ****************************************************************** */
 
-export const currentRouteSelector = (state: Object): string =>
+export const currentRouteSelector = (state: Object): Route | undefined =>
   last(state.navigation.routeHistory);
 
-export const previousRouteSelector = (state: Object): string =>
+export const previousRouteSelector = (state: Object): Route =>
   state.navigation.routeHistory |> dropLast(1) |> last;
 
-export const routeHistorySelector = (state: Object): string =>
+export const routeHistorySelector = (state: Object): [Route] =>
   state.navigation.routeHistory;
 
 /** *****************************************************************

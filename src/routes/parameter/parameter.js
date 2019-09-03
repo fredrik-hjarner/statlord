@@ -11,14 +11,14 @@ import Table from "./table";
 const iconSize = 20;
 const loadIcon = <Icon name="add-circle" color="white" size={iconSize} />;
 
-const Component = ({ parameter }) => {
+const Component = ({ parameter, routeParams: { parameterName } }) => {
   const actions = [{ text: "Create new", callback: () => {}, icon: loadIcon }];
   return (
     <LayoutWithHeader>
       <LayoutWithFooter actions={actions}>
         <ScrollView>
           <Container>
-            <Text>{parameter.name}</Text>
+            <Text>{parameterName}</Text>
             <Table parameter={parameter} />
           </Container>
         </ScrollView>
