@@ -91,6 +91,13 @@ export function* fetchAllKeysSaga() {
   }
 }
 
+/**
+ * 1) Fetch all keys.
+ *
+ * 2) For each key download it's value.
+ *
+ * 3) Save pairs in redux state.
+ */
 export function* fetchAllPairsSaga() {
   yield put({ type: FETCH_ALL_KEYS_START });
 

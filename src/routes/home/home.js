@@ -5,13 +5,19 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { LayoutWithFooter, LayoutWithHeader } from "layouts";
 import { Container, StatCardList } from "components";
-import { selectors } from "state-management/parameter";
+import { selectors, create } from "state-management/parameter";
 
 const iconSize = 20;
 const loadIcon = <Icon name="add-circle" color="white" size={iconSize} />;
 
 const Component = ({ parameters }) => {
-  const actions = [{ text: "Create new", callback: () => {}, icon: loadIcon }];
+  const actions = [
+    {
+      text: "Create new",
+      callback: () => create({ name: "test" }),
+      icon: loadIcon
+    }
+  ];
   const parameterNames = parameters.map(p => p.name);
   return (
     <LayoutWithHeader>
@@ -30,4 +36,8 @@ const mapStateToProps = state => ({
   parameters: Object.values(selectors.entities(state))
 });
 
-export default Component |> connect(mapStateToProps);
+export default Component
+  |> connect(
+    mapStateToProps,
+    { create }
+  );

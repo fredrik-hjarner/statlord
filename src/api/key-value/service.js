@@ -1,7 +1,10 @@
 import axios from "axios";
 
 const backend = "http://potifarfar.zapto.org:8080";
-const namespace = "TrackLord";
+/**
+ * TODO: I temporarily disabled namespace because backend does not support it.
+ */
+const namespace = ""; // "TrackLord/";
 
 export default class {
   static getValue(key: string): Promise<string> {
@@ -19,9 +22,7 @@ export default class {
      * key and value should be sent via request body.
      * otherwise maybe url encoding will fuck stuff up??
      */
-    return axios.post(
-      `${backend}/value?key=${namespace}/${key}&value=${value}`
-    );
+    return axios.post(`${backend}/value?key=${namespace}${key}&value=${value}`);
   }
 
   static getAllKeys(): Promise<[string]> {
@@ -30,13 +31,13 @@ export default class {
 
   static getKeysWithPrefix(prefix: string): Promise<[string]> {
     return axios
-      .get(`${backend}/keys?prefix=${namespace}/${prefix}`)
+      .get(`${backend}/keys?prefix=${namespace}${prefix}`)
       .then(({ data }) => {
         if (!data) {
           return [];
         }
         return data.map(k =>
-          k.replace(new RegExp(`^${namespace}/${prefix}`), "")
+          k.replace(new RegExp(`^${namespace}${prefix}`), "")
         );
       });
   }
@@ -46,6 +47,6 @@ export default class {
   }
 
   static deleteOneValue(key: string): Promise<any> {
-    return axios.delete(`${backend}/value?key=${namespace}/${key}`);
+    return axios.delete(`${backend}/value?key=${namespace}${key}`);
   }
 }

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { Text, TouchableOpacity as TB, Grid, Column } from "components";
 import { pushRoute } from "state-management/navigation";
-import { HOME_ROUTE, PARAMETER_ROUTE, CHART_ROUTE } from "consts";
+import { DEBUG_ROUTE, HOME_ROUTE, PARAMETER_ROUTE, CHART_ROUTE } from "consts";
 
 const TouchableOpacity = ({ style, ...props }) => (
   <TB style={[{ width: "100%", alignItems: "center" }, style]} {...props} />
@@ -19,33 +19,24 @@ export default connect(
   { pushRoute }
 )(
   class extends PureComponent<Props> {
+    renderMenuItem = ({ caption, route }) => (
+      <Column width={4}>
+        <TouchableOpacity
+          style={{ width: "100%" }}
+          onPress={() => this.props.pushRoute(route)}
+        >
+          <Text style={styles.text}>{caption}</Text>
+        </TouchableOpacity>
+      </Column>
+    );
+
     renderRoutes() {
       return (
         <Grid style={styles.routesContainer}>
-          <Column width={4}>
-            <TouchableOpacity
-              style={{ width: "100%" }}
-              onPress={() => this.props.pushRoute(HOME_ROUTE)}
-            >
-              <Text style={styles.text}>Home</Text>
-            </TouchableOpacity>
-          </Column>
-          <Column width={4}>
-            <TouchableOpacity
-              style={{ width: "100%" }}
-              onPress={() => this.props.pushRoute(PARAMETER_ROUTE)}
-            >
-              <Text style={styles.text}>Param</Text>
-            </TouchableOpacity>
-          </Column>
-          <Column width={4}>
-            <TouchableOpacity
-              style={{ width: "100%" }}
-              onPress={() => this.props.pushRoute(CHART_ROUTE)}
-            >
-              <Text style={styles.text}>Chart</Text>
-            </TouchableOpacity>
-          </Column>
+          {this.renderMenuItem({ caption: "Debug", route: DEBUG_ROUTE })}
+          {this.renderMenuItem({ caption: "Home", route: HOME_ROUTE })}
+          {this.renderMenuItem({ caption: "Param", route: PARAMETER_ROUTE })}
+          {this.renderMenuItem({ caption: "Chart", route: CHART_ROUTE })}
         </Grid>
       );
     }

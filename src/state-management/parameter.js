@@ -1,8 +1,16 @@
+import { put, all, takeEvery, take } from "redux-saga/effects";
+
 import { keepTrackCsvParser, fileAsString, fillMissingDataPoints } from "utils";
+import { KeyValueService } from "api";
+import { openToastr, TOASTR_ERROR, TOASTR_SUCCESS } from "./toastr";
 
 /** *****************************************************************
     Constants
 ****************************************************************** */
+
+const CREATE_PARAMETER_START = "CREATE_PARAMETER_START";
+const CREATE_PARAMETER_SUCCESS = "CREATE_PARAMETER_SUCCESS";
+const CREATE_PARAMETER_ERROR = "CREATE_PARAMETER_ERROR";
 
 type State = {
   entities: any // TODO
@@ -49,6 +57,11 @@ export const reducer = (state: State = INITIAL_STATE, action) => {
     Actions
 ****************************************************************** */
 
+export const create = ({ name }) => ({
+  type: CREATE_PARAMETER_START,
+  payload: { name }
+});
+
 /** *****************************************************************
     Selectors
 ****************************************************************** */
@@ -61,3 +74,25 @@ export const selectors = {
 /** *****************************************************************
     Sagas
 ****************************************************************** */
+
+export function* createParameterSaga({ payload: { name } }) {
+  try {
+    yield KeyValueService.setValue(`parameter-index/${name}`, name);
+    yield put({ type: CREATE_PARAMETER_SUCCESS });
+    // yield put(fetchAllPairs()); // TODO
+    yield put(openToastr({ text: "Created parameter.", type: TOASTR_SUCCESS }));
+  } catch (exception) {
+    yield put({ type: CREATE_PARAMETER_ERROR });
+    yield put(
+      openToastr({ text: "Failed to create parameter.", type: TOASTR_ERROR })
+    );
+  }
+}
+
+export function* sagas() {
+  yield all([
+    (function*() {
+      yield takeEvery(CREATE_PARAMETER_START, createParameterSaga);
+    })()
+  ]);
+}

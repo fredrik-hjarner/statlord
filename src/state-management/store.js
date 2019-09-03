@@ -16,7 +16,10 @@ import {
   reducer as keyValuePairsReducer,
   sagas as keyValuePairsSagas
 } from "./key-value-pairs";
-import { reducer as parameterReducer } from "./parameter";
+import {
+  reducer as parameterReducer,
+  sagas as parameterSagas
+} from "./parameter";
 
 const enhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; //eslint-disable-line
 
@@ -50,7 +53,12 @@ export const store = createStore(
 export const persistor = persistStore(store);
 
 function* rootSaga() {
-  yield all([toastrSagas(), keyValuePairsSagas(), navigationSagas()]);
+  yield all([
+    toastrSagas(),
+    keyValuePairsSagas(),
+    navigationSagas(),
+    parameterSagas()
+  ]);
 }
 
 sagaMiddleware.run(rootSaga);
