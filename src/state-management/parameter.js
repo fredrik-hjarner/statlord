@@ -14,6 +14,10 @@ const CREATE_PARAMETER_START = "CREATE_PARAMETER_START";
 const CREATE_PARAMETER_SUCCESS = "CREATE_PARAMETER_SUCCESS";
 const CREATE_PARAMETER_ERROR = "CREATE_PARAMETER_ERROR";
 
+const FETCH_PARAMETER_NAMES_START = "FETCH_PARAMETER_NAMES_START";
+const FETCH_PARAMETER_NAMES_SUCCESS = "FETCH_PARAMETER_NAMES_SUCCESS";
+const FETCH_PARAMETER_NAMES_ERROR = "FETCH_PARAMETER_NAMES_ERROR";
+
 type State = {
   entities: any // TODO
 };
@@ -41,7 +45,8 @@ const lines = {
 };
 
 const INITIAL_STATE: State = {
-  entities: lines // TODO: this is just mocking
+  entities: lines, // TODO: this is just mocking
+  parameterNames: []
 };
 
 /** *****************************************************************
@@ -50,6 +55,11 @@ const INITIAL_STATE: State = {
 
 export const reducer = (state: State = INITIAL_STATE, action) => {
   switch (action.type) {
+    case FETCH_PARAMETER_NAMES_SUCCESS:
+      return {
+        ...state,
+        parameterNames: action.payload.parameterNames
+      };
     default:
       return state;
   }
@@ -64,13 +74,18 @@ export const create = ({ name }) => ({
   payload: { name }
 });
 
+export const fetchParameterNames = () => ({
+  type: FETCH_PARAMETER_NAMES_START
+});
+
 /** *****************************************************************
     Selectors
 ****************************************************************** */
 
 export const selectors = {
   entity: (state: Object, id: string): [] => state.parameter.entities[id],
-  entities: (state: Object): [] => state.parameter.entities
+  entities: (state: Object): [] => state.parameter.entities,
+  parameterNames: (state: Object): [] => state.parameter.parameterNames
 };
 
 /** *****************************************************************
@@ -92,10 +107,33 @@ export function* createParameterSaga({ payload: { name } }) {
   }
 }
 
+export function* fetchParameterNamesSaga() {
+  try {
+    const parameterNames = yield KeyValueService.getKeysWithPrefix(
+      "parameter-index/"
+    );
+    yield put({
+      type: FETCH_PARAMETER_NAMES_SUCCESS,
+      payload: { parameterNames }
+    });
+  } catch (exception) {
+    yield put({ type: FETCH_PARAMETER_NAMES_ERROR });
+    yield put(
+      openToastr({
+        text: "Failed to fetch parameter names.",
+        type: TOASTR_ERROR
+      })
+    );
+  }
+}
+
 export function* sagas() {
   yield all([
     (function*() {
       yield takeEvery(CREATE_PARAMETER_START, createParameterSaga);
+    })(),
+    (function*() {
+      yield takeEvery(FETCH_PARAMETER_NAMES_START, fetchParameterNamesSaga);
     })()
   ]);
 }

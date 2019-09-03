@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView } from "react-native";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -6,17 +6,24 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { LayoutWithFooter, LayoutWithHeader } from "layouts";
 import { Container, StatCardList } from "components";
 import { CREATE_PARAMETER_ROUTE } from "consts";
-import { selectors } from "state-management/parameter";
+import { selectors, fetchParameterNames } from "state-management/parameter";
 import { pushRoute } from "state-management/navigation";
 
 const iconSize = 20;
 const icon = <Icon name="add-circle" color="white" size={iconSize} />;
 
 type Props = {
-  pushRoute: Function
+  pushRoute: Function,
+  fetchParameterNames: Function,
+  parameterNames: [string]
 };
 
-const Component = ({ parameters, ...props }: Props) => {
+const Component = ({ parameterNames, ...props }: Props) => {
+  useEffect(() => {
+    props.fetchParameterNames();
+    return () => {};
+  }, []);
+
   const actions = [
     {
       text: "Create new",
@@ -24,7 +31,6 @@ const Component = ({ parameters, ...props }: Props) => {
       icon
     }
   ];
-  const parameterNames = parameters.map(p => p.name);
   return (
     <LayoutWithHeader>
       <LayoutWithFooter actions={actions}>
@@ -39,11 +45,12 @@ const Component = ({ parameters, ...props }: Props) => {
 };
 
 const mapStateToProps = state => ({
-  parameters: Object.values(selectors.entities(state))
+  parameters: Object.values(selectors.entities(state)),
+  parameterNames: selectors.parameterNames(state)
 });
 
 export default Component
   |> connect(
     mapStateToProps,
-    { pushRoute }
+    { pushRoute, fetchParameterNames }
   );
