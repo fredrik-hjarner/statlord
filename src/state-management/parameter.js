@@ -1,8 +1,10 @@
-import { put, all, takeEvery, take } from "redux-saga/effects";
+import { put, all, takeEvery } from "redux-saga/effects";
 
 import { keepTrackCsvParser, fileAsString, fillMissingDataPoints } from "utils";
 import { KeyValueService } from "api";
+import { HOME_ROUTE } from "consts";
 import { openToastr, TOASTR_ERROR, TOASTR_SUCCESS } from "./toastr";
+import { pushRoute } from "./navigation";
 
 /** *****************************************************************
     Constants
@@ -81,6 +83,7 @@ export function* createParameterSaga({ payload: { name } }) {
     yield put({ type: CREATE_PARAMETER_SUCCESS });
     // yield put(fetchAllPairs()); // TODO
     yield put(openToastr({ text: "Created parameter.", type: TOASTR_SUCCESS }));
+    yield put(pushRoute(HOME_ROUTE));
   } catch (exception) {
     yield put({ type: CREATE_PARAMETER_ERROR });
     yield put(

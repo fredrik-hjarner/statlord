@@ -18,7 +18,7 @@ export default class extends PureComponent<Props> {
 
 const styles = StyleSheet.create({
   inputFieldContainer: {
-    width: 200,
+    // width: 200,
     maxWidth: "100%",
     paddingVertical: 5,
     paddingHorizontal: 10,

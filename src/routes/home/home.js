@@ -5,17 +5,23 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { LayoutWithFooter, LayoutWithHeader } from "layouts";
 import { Container, StatCardList } from "components";
-import { selectors, create } from "state-management/parameter";
+import { CREATE_PARAMETER_ROUTE } from "consts";
+import { selectors } from "state-management/parameter";
+import { pushRoute } from "state-management/navigation";
 
 const iconSize = 20;
-const loadIcon = <Icon name="add-circle" color="white" size={iconSize} />;
+const icon = <Icon name="add-circle" color="white" size={iconSize} />;
 
-const Component = ({ parameters }) => {
+type Props = {
+  pushRoute: Function
+};
+
+const Component = ({ parameters, ...props }: Props) => {
   const actions = [
     {
       text: "Create new",
-      callback: () => create({ name: "test" }),
-      icon: loadIcon
+      callback: () => props.pushRoute(CREATE_PARAMETER_ROUTE),
+      icon
     }
   ];
   const parameterNames = parameters.map(p => p.name);
@@ -39,5 +45,5 @@ const mapStateToProps = state => ({
 export default Component
   |> connect(
     mapStateToProps,
-    { create }
+    { pushRoute }
   );

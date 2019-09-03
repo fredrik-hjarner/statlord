@@ -2,10 +2,22 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { View } from "react-native";
 
-import { Home, Parameter, Chart, KeyValueTester } from "routes";
+import {
+  Home,
+  Parameter,
+  CreateParameter,
+  Chart,
+  KeyValueTester
+} from "routes";
 import { Toastr } from "components";
 import { currentRouteSelector } from "state-management/navigation";
-import { DEBUG_ROUTE, HOME_ROUTE, PARAMETER_ROUTE, CHART_ROUTE } from "consts";
+import {
+  DEBUG_ROUTE,
+  HOME_ROUTE,
+  PARAMETER_ROUTE,
+  CREATE_PARAMETER_ROUTE,
+  CHART_ROUTE
+} from "consts";
 
 type Props = {
   currentRoute: string
@@ -28,6 +40,9 @@ export default connect(mapStateToProps)(
 
         case PARAMETER_ROUTE:
           return <Parameter />;
+
+        case CREATE_PARAMETER_ROUTE:
+          return <CreateParameter />;
 
         case CHART_ROUTE:
           return <Chart />;
