@@ -2,13 +2,7 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { View } from "react-native";
 
-import {
-  Home,
-  Parameter,
-  CreateParameter,
-  Chart,
-  KeyValueTester
-} from "routes";
+import * as Routes from "routes";
 import { Toastr } from "components";
 import { currentRouteSelector } from "state-management/navigation";
 import {
@@ -16,6 +10,7 @@ import {
   HOME_ROUTE,
   PARAMETER_ROUTE,
   CREATE_PARAMETER_ROUTE,
+  AddValueToParameter,
   CHART_ROUTE
 } from "consts";
 
@@ -32,22 +27,31 @@ class Component extends PureComponent<Props> {
     const { currentRoute } = this.props;
     switch (currentRoute?.route) {
       case DEBUG_ROUTE:
-        return <KeyValueTester routeParams={currentRoute?.routeParams} />;
+        return (
+          <Routes.KeyValueTester routeParams={currentRoute?.routeParams} />
+        );
 
       case HOME_ROUTE:
-        return <Home routeParams={currentRoute?.routeParams} />;
+        return <Routes.Home routeParams={currentRoute?.routeParams} />;
 
       case PARAMETER_ROUTE:
-        return <Parameter routeParams={currentRoute?.routeParams} />;
+        return <Routes.Parameter routeParams={currentRoute?.routeParams} />;
 
       case CREATE_PARAMETER_ROUTE:
-        return <CreateParameter routeParams={currentRoute?.routeParams} />;
+        return (
+          <Routes.CreateParameter routeParams={currentRoute?.routeParams} />
+        );
+
+      case AddValueToParameter:
+        return (
+          <Routes.AddValueToParameter routeParams={currentRoute?.routeParams} />
+        );
 
       case CHART_ROUTE:
-        return <Chart routeParams={currentRoute?.routeParams} />;
+        return <Routes.Chart routeParams={currentRoute?.routeParams} />;
 
       default:
-        return <Home routeParams={currentRoute?.routeParams} />;
+        return <Routes.Home routeParams={currentRoute?.routeParams} />;
     }
   }
 

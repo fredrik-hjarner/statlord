@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { Text, TouchableOpacity as TB, Grid, Column } from "components";
 import { pushRoute } from "state-management/navigation";
-import { DEBUG_ROUTE, HOME_ROUTE, PARAMETER_ROUTE, CHART_ROUTE } from "consts";
+import { DEBUG_ROUTE, HOME_ROUTE, CHART_ROUTE } from "consts";
 
 const TouchableOpacity = ({ style, ...props }) => (
   <TB style={[{ width: "100%", alignItems: "center" }, style]} {...props} />
@@ -35,7 +35,6 @@ export default connect(
         <Grid style={styles.routesContainer}>
           {this.renderMenuItem({ caption: "Debug", route: DEBUG_ROUTE })}
           {this.renderMenuItem({ caption: "Home", route: HOME_ROUTE })}
-          {this.renderMenuItem({ caption: "Param", route: PARAMETER_ROUTE })}
           {this.renderMenuItem({ caption: "Chart", route: CHART_ROUTE })}
         </Grid>
       );
