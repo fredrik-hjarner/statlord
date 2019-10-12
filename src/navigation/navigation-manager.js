@@ -5,14 +5,6 @@ import { View } from "react-native";
 import * as Routes from "routes";
 import { Toastr } from "components";
 import { currentRouteSelector } from "state-management/navigation";
-import {
-  DEBUG_ROUTE,
-  HOME_ROUTE,
-  PARAMETER_ROUTE,
-  CREATE_PARAMETER_ROUTE,
-  AddValueToParameter,
-  CHART_ROUTE
-} from "consts";
 
 type Props = {
   currentRoute: string
@@ -25,34 +17,16 @@ type Props = {
 class Component extends PureComponent<Props> {
   renderRoute() {
     const { currentRoute } = this.props;
-    switch (currentRoute?.route) {
-      case DEBUG_ROUTE:
-        return (
-          <Routes.KeyValueTester routeParams={currentRoute?.routeParams} />
-        );
-
-      case HOME_ROUTE:
-        return <Routes.Home routeParams={currentRoute?.routeParams} />;
-
-      case PARAMETER_ROUTE:
-        return <Routes.Parameter routeParams={currentRoute?.routeParams} />;
-
-      case CREATE_PARAMETER_ROUTE:
-        return (
-          <Routes.CreateParameter routeParams={currentRoute?.routeParams} />
-        );
-
-      case AddValueToParameter:
-        return (
-          <Routes.AddValueToParameter routeParams={currentRoute?.routeParams} />
-        );
-
-      case CHART_ROUTE:
-        return <Routes.Chart routeParams={currentRoute?.routeParams} />;
-
-      default:
-        return <Routes.Home routeParams={currentRoute?.routeParams} />;
+    /**
+     * TODO:
+     * Should be able to handle default routes in a better way.
+     * That ought to be set... uhm somewhere... dunno
+     */
+    if (!currentRoute?.route) {
+      return <Routes.Home routeParams={currentRoute?.routeParams} />;
     }
+    const Route = Routes[currentRoute.route];
+    return <Route routeParams={currentRoute?.routeParams} />;
   }
 
   render() {
