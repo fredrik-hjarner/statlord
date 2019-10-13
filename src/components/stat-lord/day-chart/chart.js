@@ -3,11 +3,16 @@ import {
   VictoryLine,
   VictoryChart,
   VictoryTheme,
-  VictoryZoomContainer
+  VictoryZoomContainer,
+  VictoryLabel,
+  VictoryGroup,
+  VictoryScatter,
+  VictoryAxis
 } from "victory-native";
 import moment from "moment";
 
 import { Outline } from "components";
+import HorizontalAxis from "./horizontal-axis";
 
 type Props = {
   lines: [
@@ -33,18 +38,26 @@ const Chart = ({ lines, domain }: Props) => {
         /* containerComponent={
           <VictoryZoomContainer zoomDomain={{ x: [before, now] }} />
         } */
+        scale={{ x: "time", y: "linear" }}
       >
+        <HorizontalAxis />
+        <VictoryAxis dependentAxis />
         {lines.map(({ data, color }) => (
-          <VictoryLine
+          <VictoryGroup
             data={data}
             /* domain={{ y: [3, 7] }} */
-            scale={{ x: "time", y: "linear" }}
-            style={{
-              data: {
-                stroke: color
-              }
-            }}
-          />
+            color={color}
+            labels={({ y }) => y}
+          >
+            <VictoryLine
+              style={{
+                data: {
+                  strokeWidth: 1
+                }
+              }}
+            />
+            <VictoryScatter />
+          </VictoryGroup>
         ))}
       </VictoryChart>
     </Outline>

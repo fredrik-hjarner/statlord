@@ -7,3 +7,4 @@ export const PARAMETER_ROUTE = "Parameter";
 export const CREATE_PARAMETER_ROUTE = "CreateParameter";
 export const CHART_ROUTE = "Chart";
 export const AddValueToParameter = "AddValueToParameter";
+export const ChartTests = "ChartTests";

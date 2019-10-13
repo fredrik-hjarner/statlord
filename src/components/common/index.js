@@ -11,3 +11,4 @@ export { default as Modal } from "./modal";
 export * from "./grid";
 export * from "./typography";
 export * from "./form";
+export * from "./debug";
